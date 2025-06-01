@@ -8,7 +8,9 @@ import {
   CardContent, 
   Chip,
   Avatar,
-  Divider
+  Divider,
+  Switch,
+  FormControlLabel
 } from '@mui/material';
 import {
   ElectricalServices,
@@ -29,8 +31,10 @@ const SSEAcMonitor = () => {
     power_factor: '--',
   });
   const [connectionStatus, setConnectionStatus] = useState('connecting');
+  const [isOn, setIsOn] = useState(false);
 
   useEffect(() => {
+    if (!isOn) return;
     const eventSource = new window.EventSource(`${import.meta.env.VITE_API_BASE_URL}/ac/latest/live`);
     
     eventSource.onopen = () => {
@@ -59,7 +63,7 @@ const SSEAcMonitor = () => {
     };
     
     return () => eventSource.close();
-  }, []);
+  }, [isOn]);
 
   const getStatusColor = () => {
     switch (connectionStatus) {
@@ -115,17 +119,24 @@ const SSEAcMonitor = () => {
   ];
 
   return (
-    <Box sx={{ maxWidth: 1400, mx: 'auto', p: 3 }}>
+    <Box sx={{ maxWidth: 1800, mx: 'auto', p: 3 }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
         <Typography variant="h4" fontWeight="bold" color="primary">
           AC Power Monitor
         </Typography>
-        <Chip 
-          label={connectionStatus.charAt(0).toUpperCase() + connectionStatus.slice(1)}
-          color={getStatusColor()}
-          variant="filled"
-          sx={{ fontWeight: 'bold' }}
-        />
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+          <FormControlLabel
+            control={<Switch checked={isOn} onChange={() => setIsOn(v => !v)} color="primary" />}
+            label={isOn ? 'On' : 'Off'}
+            sx={{ mr: 2 }}
+          />
+          <Chip 
+            label={connectionStatus.charAt(0).toUpperCase() + connectionStatus.slice(1)}
+            color={getStatusColor()}
+            variant="filled"
+            sx={{ fontWeight: 'bold' }}
+          />
+        </Box>
       </Box>
 
       <Typography variant="h6" color="text.secondary" gutterBottom sx={{ mb: 3 }}>
@@ -139,6 +150,11 @@ const SSEAcMonitor = () => {
               elevation={2} 
               sx={{ 
                 height: '100%',
+                minWidth: 250,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'stretch',
                 transition: 'all 0.3s ease',
                 '&:hover': {
                   elevation: 6,
@@ -146,7 +162,7 @@ const SSEAcMonitor = () => {
                 }
               }}
             >
-              <CardContent sx={{ p: 3 }}>
+              <CardContent sx={{ p: 3, flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                   <Avatar 
                     sx={{ 
