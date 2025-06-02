@@ -102,7 +102,7 @@ const SSESolarMonitor = () => {
 
 
   return (
-    <Box sx={{maxWidth:700,p: 3 }}>
+    <Box sx={{maxWidth:524,p: 3 }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
         <Typography variant="h4" fontWeight="bold" color="primary">
           Solar Power Monitor
@@ -126,7 +126,7 @@ const SSESolarMonitor = () => {
         Real-time Solar Measurements
       </Typography>
 
-      <Grid container spacing={3}>
+      <Grid container spacing={3} sx={{ display: 'flex', justifyContent: 'center' , alignItems: 'center' }}>
         {measurements.map((measurement, index) => (
           <Grid item xs={12} sm={6} md={4} key={index}>
             <Card 

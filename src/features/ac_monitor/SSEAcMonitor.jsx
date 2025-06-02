@@ -119,7 +119,7 @@ const SSEAcMonitor = () => {
     { 
       label: 'Power Factor', 
       value: data.power_factor, 
-      unit: '', 
+      unit: '😁', 
       icon: <Functions />,
       color: '#303f9f'
     }
@@ -129,7 +129,7 @@ const SSEAcMonitor = () => {
 
 
   return (
-    <Box sx={{maxWidth:900, p: 3 }}>
+    <Box sx={{maxWidth:798, p: 3 }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
         <Typography variant="h4" fontWeight="bold" color="primary">
           AC Power Monitor
@@ -153,9 +153,9 @@ const SSEAcMonitor = () => {
         Real-time Power Measurements
       </Typography>
 
-      <Grid container spacing={3}>
+      <Grid container spacing={3} sx={{ display: 'flex', justifyContent: 'center' , alignItems: 'center' }}>
         {measurements.map((measurement, index) => (
-          <Grid item xs={12} sm={6} md={4} key={index}>
+          <Grid item xs={12} sm={6} md={4} key={index} >
             <Card 
               elevation={2} 
               sx={{ 
