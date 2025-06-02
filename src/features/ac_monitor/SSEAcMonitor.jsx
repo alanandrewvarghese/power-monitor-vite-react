@@ -20,6 +20,7 @@ import {
   Waves,
   Functions
 } from '@mui/icons-material';
+import { loadEnergyAtMidnight, getEnergyAtMidnight } from '../../services/energyAtMidnight';
 
 const SSEAcMonitor = () => {
   const [data, setData] = useState({
@@ -32,6 +33,12 @@ const SSEAcMonitor = () => {
   });
   const [connectionStatus, setConnectionStatus] = useState('connecting');
   const [isOn, setIsOn] = useState(false);
+
+  useEffect(() => {
+    loadEnergyAtMidnight();
+  }, []);
+
+  const midnightData = getEnergyAtMidnight();
 
   useEffect(() => {
     if (!isOn) return;
@@ -97,7 +104,7 @@ const SSEAcMonitor = () => {
     },
     { 
       label: 'Energy', 
-      value: data.energy - 770504, 
+      value: data.energy - midnightData.energyConsumptionAtMidnight || 0, 
       unit: 'Wh', 
       icon: <Battery90 />,
       color: '#7b1fa2'
@@ -117,6 +124,9 @@ const SSEAcMonitor = () => {
       color: '#303f9f'
     }
   ];
+
+  // Access the energy-at-midnight data
+
 
   return (
     <Box sx={{ maxWidth: 1800, mx: 'auto', p: 3 }}>

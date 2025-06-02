@@ -17,6 +17,7 @@ import {
   PowerSettingsNew,
   Battery90
 } from '@mui/icons-material';
+import { loadEnergyAtMidnight, getEnergyAtMidnight } from '../../services/energyAtMidnight';
 
 const SSESolarMonitor = () => {
   const [data, setData] = useState({
@@ -27,6 +28,12 @@ const SSESolarMonitor = () => {
   });
   const [connectionStatus, setConnectionStatus] = useState('connecting');
   const [isOn, setIsOn] = useState(false);
+
+  useEffect(() => {
+    loadEnergyAtMidnight();
+  }, []);
+
+  const midnightData = getEnergyAtMidnight();
 
   useEffect(() => {
     if (!isOn) return;
@@ -86,12 +93,13 @@ const SSESolarMonitor = () => {
     },
     { 
       label: 'Energy', 
-      value: data.energy, 
+      value: data.energy - midnightData.energyProductionAtMidnight || 0, 
       unit: 'Wh', 
       icon: <Battery90 />,
       color: '#7b1fa2'
     }
   ];
+
 
   return (
     <Box sx={{ maxWidth: 1800, mx: 'auto', p: 3 }}>
