@@ -30,23 +30,18 @@ const SSESolarMonitor = () => {
 
   useEffect(() => {
     if (!isOn) return;
-    let lastUpdate = 0;
     const eventSource = new window.EventSource(`${import.meta.env.VITE_API_BASE_URL}/solar/latest/live`);
     eventSource.onopen = () => {
       setConnectionStatus('connected');
     };
     eventSource.onmessage = (event) => {
-      const now = Date.now();
-      if (now - lastUpdate >= 2000) {
-        lastUpdate = now;
-        const d = JSON.parse(event.data);
-        setData({
-          voltage: d.voltage.toFixed(2),
-          current: d.current.toFixed(2),
-          power: d.power.toFixed(2),
-          energy: d.energy.toFixed(2),
-        });
-      }
+      const d = JSON.parse(event.data);
+      setData({
+        voltage: d.voltage.toFixed(2),
+        current: d.current.toFixed(2),
+        power: d.power.toFixed(2),
+        energy: d.energy.toFixed(2),
+      });
     };
     eventSource.onerror = (error) => {
       console.error('EventSource failed:', error);
