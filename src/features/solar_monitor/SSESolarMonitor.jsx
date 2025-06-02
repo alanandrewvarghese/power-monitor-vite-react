@@ -27,7 +27,7 @@ const SSESolarMonitor = () => {
     energy: '--',
   });
   const [connectionStatus, setConnectionStatus] = useState('connecting');
-  const [isOn, setIsOn] = useState(false);
+  const [isOn, setIsOn] = useState(true);
 
   useEffect(() => {
     loadEnergyAtMidnight();
@@ -102,7 +102,7 @@ const SSESolarMonitor = () => {
 
 
   return (
-    <Box sx={{ maxWidth: 1800, mx: 'auto', p: 3 }}>
+    <Box sx={{maxWidth:700,p: 3 }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
         <Typography variant="h4" fontWeight="bold" color="primary">
           Solar Power Monitor
